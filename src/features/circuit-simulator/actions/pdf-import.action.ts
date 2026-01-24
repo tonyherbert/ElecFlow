@@ -76,6 +76,8 @@ const ImportPdfInputSchema = z.object({
   fileBase64: z.string().min(1),
   /** Original file name */
   fileName: z.string().min(1),
+  /** Client ID to associate the circuit with */
+  clientId: z.string().min(1),
   /** Optional custom circuit name (overrides parsed name) */
   customName: z.string().optional(),
 });
@@ -84,7 +86,7 @@ export const importPdfAction = orgAction
   .metadata({})
   .inputSchema(ImportPdfInputSchema)
   .action(async ({ parsedInput, ctx: { org } }) => {
-    const { fileBase64, fileName, customName } = parsedInput;
+    const { fileBase64, fileName, clientId, customName } = parsedInput;
 
     // Validate file extension
     if (!fileName.toLowerCase().endsWith(".pdf")) {
@@ -136,6 +138,7 @@ export const importPdfAction = orgAction
       data: {
         name: customName ?? circuitInput.name,
         description: circuitInput.description,
+        clientId,
         organizationId: org.id,
         nodesJson: JSON.stringify(circuitInput.nodes),
         linksJson: JSON.stringify(circuitInput.links),

@@ -1,6 +1,6 @@
 import { buttonVariants } from "@/components/ui/button";
-import { getCircuitsByOrganization } from "@/features/circuit-simulator/actions/circuit.action";
-import { CircuitList } from "@/features/circuit-simulator/components/circuit-list";
+import { getClientsByOrganization } from "@/features/client/actions/client.action";
+import { ClientList } from "@/features/client/components/client-list";
 import {
   Layout,
   LayoutActions,
@@ -14,35 +14,35 @@ import { getRequiredCurrentOrgCache } from "@/lib/react/cache";
 import Link from "next/link";
 
 export const generateMetadata = combineWithParentMetadata({
-  title: "Circuits",
-  description: "Gérer et simuler les circuits électriques",
+  title: "Clients",
+  description: "Gérer vos clients et leurs schémas électriques",
 });
 
-export default async function CircuitsPage(
-  props: PageProps<"/orgs/[orgSlug]/circuits">
+export default async function ClientsPage(
+  props: PageProps<"/orgs/[orgSlug]/clients">
 ) {
   const params = await props.params;
   const org = await getRequiredCurrentOrgCache();
-  const circuits = await getCircuitsByOrganization(org.id);
+  const clients = await getClientsByOrganization(org.id);
 
   return (
     <Layout>
       <LayoutHeader>
-        <LayoutTitle>Circuits</LayoutTitle>
+        <LayoutTitle>Clients</LayoutTitle>
         <LayoutDescription>
-          Importez et simulez des circuits électriques depuis vos schémas Formelec.
+          Gérez vos clients et leurs schémas électriques.
         </LayoutDescription>
       </LayoutHeader>
       <LayoutActions>
         <Link
-          href={`/orgs/${params.orgSlug}/circuits/import`}
+          href={`/orgs/${params.orgSlug}/clients/new`}
           className={buttonVariants()}
         >
-          Importer un schéma
+          Nouveau client
         </Link>
       </LayoutActions>
       <LayoutContent>
-        <CircuitList circuits={circuits} orgSlug={params.orgSlug} />
+        <ClientList clients={clients} orgSlug={params.orgSlug} />
       </LayoutContent>
     </Layout>
   );

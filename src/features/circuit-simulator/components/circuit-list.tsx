@@ -34,9 +34,10 @@ type CircuitListItem = {
 type CircuitListProps = {
   circuits: CircuitListItem[];
   orgSlug: string;
+  clientId?: string;
 };
 
-export function CircuitList({ circuits, orgSlug }: CircuitListProps) {
+export function CircuitList({ circuits, orgSlug, clientId }: CircuitListProps) {
   const router = useRouter();
 
   const handleDelete = (circuit: CircuitListItem) => {
@@ -70,14 +71,16 @@ export function CircuitList({ circuits, orgSlug }: CircuitListProps) {
           <CardDescription>
             Importez votre premier schéma Formelec pour commencer à simuler la logique électrique.
           </CardDescription>
-          <div className="pt-4">
-            <Button asChild>
-              <Link href={`/orgs/${orgSlug}/circuits/import`}>
-                <Upload className="mr-2 h-4 w-4" />
-                Importer un schéma
-              </Link>
-            </Button>
-          </div>
+          {clientId && (
+            <div className="pt-4">
+              <Button asChild>
+                <Link href={`/orgs/${orgSlug}/clients/${clientId}/circuits/import`}>
+                  <Upload className="mr-2 h-4 w-4" />
+                  Importer un schéma
+                </Link>
+              </Button>
+            </div>
+          )}
         </CardHeader>
       </Card>
     );

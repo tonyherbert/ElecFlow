@@ -2,6 +2,10 @@
 
 ## 2026-01-24
 
+FEATURE: Add Client management for organizing circuits by customer
+FEATURE: Client CRUD with name, email, phone, address, and notes
+FEATURE: Circuits now belong to clients (Organization → Client → Circuit)
+FEATURE: Navigation restructured: Clients page with nested circuits
 REFACTOR: Remove manual circuit creation flow (keep PDF import only)
 REFACTOR: Rename project from NormCheck to ElecFlow
 FIX: Simulation bug where paths could go through neutral node

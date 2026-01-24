@@ -52,9 +52,10 @@ export async function getCircuitById(
   return dbCircuitToDomain(dbCircuit);
 }
 
-export async function getCircuitsByOrganization(organizationId: string) {
+export async function getCircuitsByClient(clientId: string, organizationId: string) {
   const circuits = await prisma.circuit.findMany({
     where: {
+      clientId,
       organizationId,
     },
     orderBy: {

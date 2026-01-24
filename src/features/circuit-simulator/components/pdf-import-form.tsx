@@ -15,6 +15,7 @@ import { PdfUpload } from "./pdf-upload";
 
 type PdfImportFormProps = {
   orgSlug: string;
+  clientId: string;
 };
 
 type ParseResult = {
@@ -26,7 +27,7 @@ type ParseResult = {
   };
 };
 
-export function PdfImportForm({ orgSlug }: PdfImportFormProps) {
+export function PdfImportForm({ orgSlug, clientId }: PdfImportFormProps) {
   const router = useRouter();
   const [isParsing, setIsParsing] = useState(false);
   const [isImporting, setIsImporting] = useState(false);
@@ -82,14 +83,15 @@ export function PdfImportForm({ orgSlug }: PdfImportFormProps) {
         importPdfAction({
           fileBase64,
           fileName,
+          clientId,
           customName,
         })
       );
 
       toast.success(`Circuit créé avec ${result.componentsCount} composants`);
 
-      // Redirect to the new circuit
-      router.push(`/orgs/${orgSlug}/circuits/${result.circuitId}`);
+      // Redirect to simulate the new circuit
+      router.push(`/orgs/${orgSlug}/circuits/${result.circuitId}/simulate`);
     } catch (error) {
       toast.error(
         error instanceof Error ? error.message : "Erreur lors de l'import"
