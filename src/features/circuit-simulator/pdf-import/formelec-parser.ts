@@ -4,6 +4,15 @@ const REPERE_PATTERN = /^(Q\d+(?:\.\d+)?)\b/;
 const PROTECTION_PATTERN = /(\d+A(?:\s*\/\s*\d+mA)?)/;
 const CABLE_PATTERN = /(\d+G\d+(?:\.\d+)?)/;
 
+const CARTOUCHE_PATTERNS = [
+  /^(Indice|Modification|Date|Dessinateur|Approbateur|Page\s*:)/i,
+  /^(Création de document|TD\s+\d+|SOTR.?BAT|Formelec)/i,
+  /^\d+\s*\/\s*\d+$/,
+  /^\d{2}\/\d{2}\/\d{2,4}$/,
+  /^[A-Z]\.[A-Z]$/,
+  /^[A-C]$/,
+];
+
 export function parseFormelecText(text: string, documentName: string): ParsedPdfResult {
   const components: ParsedComponent[] = [];
   const errors: string[] = [];
@@ -18,6 +27,10 @@ export function parseFormelecText(text: string, documentName: string): ParsedPdf
 
   for (const line of lines) {
     if (!line) continue;
+
+    if (CARTOUCHE_PATTERNS.some((pattern) => pattern.test(line))) {
+      continue;
+    }
 
     const repereMatch = line.match(REPERE_PATTERN);
 

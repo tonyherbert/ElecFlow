@@ -5,6 +5,7 @@
 REFACTOR: Remove manual circuit creation flow (keep PDF import only)
 REFACTOR: Rename project from NormCheck to ElecFlow
 FIX: Simulation bug where paths could go through neutral node
+FIX: Ignore cartouche metadata when parsing Formelec PDF
 CHORE: Clean up verbose comments in circuit simulator engine
 FEATURE: Add technical documentation for circuit simulator
 
