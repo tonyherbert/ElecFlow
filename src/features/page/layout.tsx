@@ -45,7 +45,7 @@ export const LayoutDescription = (props: ComponentPropsWithoutRef<"p">) => {
 
 export const LayoutActions = (props: ComponentPropsWithoutRef<"div">) => {
   return (
-    <div {...props} className={cn("flex items-center", props.className)} />
+    <div {...props} className={cn("flex items-center gap-2", props.className)} />
   );
 };
 

@@ -1,5 +1,6 @@
 import { buttonVariants } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Skeleton } from "@/components/ui/skeleton";
 import { getClientById } from "@/features/client/actions/client.action";
 import { getCircuitsByClient } from "@/features/circuit-simulator/actions/circuit.action";
 import { CircuitList } from "@/features/circuit-simulator/components/circuit-list";
@@ -16,6 +17,7 @@ import { getRequiredCurrentOrgCache } from "@/lib/react/cache";
 import { Mail, MapPin, Phone } from "lucide-react";
 import Link from "next/link";
 import { notFound } from "next/navigation";
+import { Suspense } from "react";
 
 export const generateMetadata = combineWithParentMetadata({
   title: "Détails client",
@@ -44,6 +46,12 @@ export default async function ClientDetailPage(
         </LayoutDescription>
       </LayoutHeader>
       <LayoutActions>
+        <Link
+          href={`/orgs/${params.orgSlug}/clients/${params.clientId}/edit`}
+          className={buttonVariants({ variant: "outline" })}
+        >
+          Modifier
+        </Link>
         <Link
           href={`/orgs/${params.orgSlug}/clients/${params.clientId}/circuits/import`}
           className={buttonVariants()}
@@ -98,11 +106,13 @@ export default async function ClientDetailPage(
             <h2 className="mb-4 text-lg font-semibold">
               Circuits ({circuits.length})
             </h2>
-            <CircuitList
-              circuits={circuits}
-              orgSlug={params.orgSlug}
-              clientId={params.clientId}
-            />
+            <Suspense fallback={<Skeleton className="h-32 w-full" />}>
+              <CircuitList
+                circuits={circuits}
+                orgSlug={params.orgSlug}
+                clientId={params.clientId}
+              />
+            </Suspense>
           </div>
         </div>
       </LayoutContent>

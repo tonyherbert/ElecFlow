@@ -10,7 +10,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { dialogManager } from "@/features/dialog-manager/dialog-manager";
 import { resolveActionResult } from "@/lib/actions/actions-utils";
-import { FileText, Mail, MoreVertical, Phone, Trash2, Users } from "lucide-react";
+import { FileText, Mail, MoreVertical, Pencil, Phone, Trash2, Users } from "lucide-react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
@@ -74,23 +74,37 @@ export function ClientList({ clients, orgSlug }: ClientListProps) {
   return (
     <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
       {clients.map((client) => (
-        <Card key={client.id} className="relative">
+        <Card
+          key={client.id}
+          className="relative cursor-pointer transition-colors hover:bg-muted/50"
+          onClick={() => router.push(`/orgs/${orgSlug}/clients/${client.id}`)}
+        >
           <CardHeader className="pb-2">
             <div className="flex items-start justify-between">
-              <Link
-                href={`/orgs/${orgSlug}/clients/${client.id}`}
-                className="hover:underline"
-              >
-                <CardTitle className="text-lg">{client.name}</CardTitle>
-              </Link>
+              <CardTitle className="text-lg">{client.name}</CardTitle>
               <DropdownMenu>
-                <DropdownMenuTrigger className="hover:bg-muted rounded p-1">
+                <DropdownMenuTrigger
+                  className="hover:bg-muted rounded p-1"
+                  onClick={(e) => e.stopPropagation()}
+                >
                   <MoreVertical className="size-4" />
                 </DropdownMenuTrigger>
                 <DropdownMenuContent align="end">
                   <DropdownMenuItem
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      router.push(`/orgs/${orgSlug}/clients/${client.id}/edit`);
+                    }}
+                  >
+                    <Pencil className="mr-2 size-4" />
+                    Modifier
+                  </DropdownMenuItem>
+                  <DropdownMenuItem
                     className="text-destructive focus:text-destructive"
-                    onClick={() => handleDelete(client)}
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      handleDelete(client);
+                    }}
                   >
                     <Trash2 className="mr-2 size-4" />
                     Supprimer

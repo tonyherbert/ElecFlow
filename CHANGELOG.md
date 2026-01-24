@@ -2,6 +2,7 @@
 
 ## 2026-01-24
 
+FIX: Make client cards fully clickable to access client detail page
 FEATURE: Add Client management for organizing circuits by customer
 FEATURE: Client CRUD with name, email, phone, address, and notes
 FEATURE: Circuits now belong to clients (Organization → Client → Circuit)
