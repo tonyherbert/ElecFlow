@@ -1,5 +1,5 @@
 {
-  "name": "nowts",
+  "name": "elecflow",
   "nowts-version": "2.1.0",
   "version": "0.1.0",
   "private": true,
@@ -84,6 +84,7 @@
     "next-zod-route": "^1.0.0",
     "nprogress": "^0.2.0",
     "nuqs": "^2.8.5",
+    "pdf-parse": "1.1.1",
     "pg": "^8.16.3",
     "react": "19.2.3",
     "react-dom": "19.2.3",
