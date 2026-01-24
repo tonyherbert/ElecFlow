@@ -92,6 +92,9 @@ model Organization {
   subscription     Subscription?
   email            String?
 
+  // Circuit Simulator feature
+  circuits Circuit[]
+
   @@unique([slug])
   @@map("organization")
 }
