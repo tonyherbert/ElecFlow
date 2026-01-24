@@ -1,5 +1,24 @@
 # Changelog
 
+## 2026-01-24
+
+REFACTOR: Remove manual circuit creation flow (keep PDF import only)
+REFACTOR: Rename project from NormCheck to ElecFlow
+FIX: Simulation bug where paths could go through neutral node
+CHORE: Clean up verbose comments in circuit simulator engine
+FEATURE: Add technical documentation for circuit simulator
+
+## 2026-01-23
+
+FEATURE: Add PDF import for Formelec electrical schematics
+FEATURE: PDF parser with text extraction and Formelec format parsing
+FEATURE: Automatic circuit building from parsed components (IG, differentials, final circuits)
+FEATURE: Preview UI showing detected components before import
+FEATURE: Add Circuit Simulator for electrical circuit logic verification
+FEATURE: Circuit CRUD with nodes, links, and control states management
+FEATURE: BFS-based simulation engine to verify current flow paths
+FEATURE: Simulation UI with toggle controls and powered/unpowered status display
+
 ## 2026-01-19
 
 FEATURE: Add x-org-slug header support for /api/orgs/* routes in middleware
