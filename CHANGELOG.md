@@ -1,7 +1,50 @@
 # Changelog
 
+## 2026-01-29
+
+FIX: Dashboard "Importer un schéma" button now redirects to circuits import page
+FEATURE: Global circuit import - schemas can now be created without a client
+FEATURE: Circuits list page at /orgs/[orgSlug]/circuits with all schemas
+FEATURE: Client assignment - assign or change client from simulation page
+FEATURE: Import button in sidebar header for quick access
+REFACTOR: Make clientId optional on Circuit model (database migration)
+REFACTOR: Add "Schémas" link in sidebar navigation menu
+REFACTOR: New organization dashboard with stats cards, recent clients, recent circuits, and quick actions
+
+## 2026-01-26
+
+REFACTOR: Complete UX overhaul with new electric blue theme inspired by Stripe/Linear
+REFACTOR: Redesign client list with dashboard stats cards and modern card design
+REFACTOR: Redesign client detail page with avatar, contact badges, and metrics row
+REFACTOR: Redesign circuit cards with icons, version badges, and improved hover states
+REFACTOR: Redesign PDF upload with cleaner drag-drop zone and loading states
+REFACTOR: Redesign PDF preview with step indicator, inline name editing, and tree view
+REFACTOR: Redesign simulation panel with grid toggle cards, larger stats, and cleaner results list
+REFACTOR: Add semantic circuit colors (powered/unpowered) for consistent status visualization
+REFACTOR: Update border radius to 0.5rem for more modern rounded corners
+REFACTOR: Improve empty states with larger icons and clearer CTAs
+FIX: Make simulation header sticky with blur effect when scrolling
+
+## 2026-01-25
+
+FEATURE: Circuit versioning system - re-import plans with automatic version detection and classification
+FEATURE: Fingerprint-based detection of similar plans during import
+FEATURE: Version selector during import to create new version or new plan
+FEATURE: Version dropdown switcher in simulation page header
+REFACTOR: Circuit list now groups versions, showing only latest with "X versions" badge
+REFACTOR: Circuit list cards are now fully clickable with cleaner compact design
+REFACTOR: Client detail page with compact inline contact info and correct schema count
+FEATURE: Animated circuit SVG for empty state (progressive lighting effect)
+REFACTOR: Complete UX redesign of simulation panel with compact toggle pills, expandable receptor details, and cleaner single-column layout
+
 ## 2026-01-24
 
+FEATURE: New modern simulation UI with 2-column layout, donut chart, and colored status cards
+REFACTOR: Remove analytics system (will be replaced by real-time simulation charts)
+REFACTOR: Simplify dashboard to show clients list
+REFACTOR: Circuit detail page now redirects to simulate page
+REFACTOR: Move circuit pages under /clients/[clientId]/circuits/[circuitId] for better URL hierarchy
+FIX: Sidebar navigation no longer highlights Dashboard on non-nav pages
 FIX: Make client cards fully clickable to access client detail page
 FEATURE: Add Client management for organizing circuits by customer
 FEATURE: Client CRUD with name, email, phone, address, and notes
