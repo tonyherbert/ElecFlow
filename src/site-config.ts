@@ -22,5 +22,7 @@ export const SiteConfig = {
   features: {
     enableImageUpload: false as boolean,
     enableLandingRedirection: true as boolean,
+    /** Enable AI-powered PDF parsing (requires ANTHROPIC_API_KEY) */
+    enableAIParsing: false as boolean,
   },
 };

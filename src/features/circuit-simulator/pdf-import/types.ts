@@ -50,6 +50,45 @@ export type ComponentHierarchy = {
 };
 
 /**
+ * Component type for AI parsing
+ */
+export type ComponentType =
+  | "main_breaker"
+  | "differential"
+  | "circuit_breaker"
+  | "final_circuit";
+
+/**
+ * A component parsed by AI from the PDF text
+ */
+export type AIParserComponent = {
+  /** Reference code (e.g., "Q1", "Q2.1", "F1") */
+  repere: string;
+  /** Description (e.g., "Éclairage Chambre 1") */
+  designation: string;
+  /** Protection rating (e.g., "10A", "25A/30mA") */
+  protection: string;
+  /** Cable specification (e.g., "3G1.5", "3G2.5") */
+  cable: string | null;
+  /** Parent reference (e.g., "Q2" for "Q2.1") */
+  parentRepere: string | null;
+  /** Component type */
+  type: ComponentType;
+};
+
+/**
+ * Result of AI parsing
+ */
+export type AIParseResult = {
+  /** List of detected components */
+  components: AIParserComponent[];
+  /** Confidence score (0-1) */
+  confidence: number;
+  /** Optional notes about parsing quality */
+  notes: string;
+};
+
+/**
  * Result of building a circuit from parsed data
  */
 export type CircuitBuildResult = {

@@ -1,5 +1,14 @@
 # Changelog
 
+## 2026-01-30
+
+FEATURE: AI-powered PDF parsing with Claude Haiku - universal format support (disabled by default)
+FEATURE: Component validation interface - review, edit, add/remove components before import
+FEATURE: Confidence score display for AI parsing quality feedback
+FEATURE: Feature flag `enableAIParsing` in site-config to toggle AI parsing
+REFACTOR: New import flow with 3 steps (upload → AI validation → import) when AI enabled
+CHORE: Remove organization users page (unused)
+
 ## 2026-01-29
 
 FIX: Dashboard "Importer un schéma" button now redirects to circuits import page

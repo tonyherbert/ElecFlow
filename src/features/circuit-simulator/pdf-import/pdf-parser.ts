@@ -30,13 +30,16 @@ export async function extractTextFromPdf(
 ): Promise<PdfExtractionResult> {
   const data = await pdf(buffer);
 
+  // data.info may be undefined for some PDFs
+  const info = data.info as Record<string, string> | undefined;
+
   return {
     text: data.text,
     numPages: data.numpages,
     info: {
-      title: data.info?.Title,
-      author: data.info?.Author,
-      creator: data.info?.Creator,
+      title: info?.Title,
+      author: info?.Author,
+      creator: info?.Creator,
     },
   };
 }
