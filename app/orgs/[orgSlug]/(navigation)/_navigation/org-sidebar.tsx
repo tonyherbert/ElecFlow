@@ -70,7 +70,7 @@ export function OrgSidebar({
         ) : (
           <>
             <OrgsSelect orgs={userOrgs} currentOrgSlug={slug} />
-            <OrgCommand />
+              <OrgCommand />
           </>
         )}
       </SidebarHeader>

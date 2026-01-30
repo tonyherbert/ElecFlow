@@ -21,3 +21,81 @@ model Feedback {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }
+
+// =============================================================================
+// Client Management
+// =============================================================================
+
+model Client {
+  id             String       @id @default(nanoid(11))
+  name           String
+  email          String?
+  phone          String?
+  address        String?
+  notes          String?      @db.Text
+  organizationId String
+  organization   Organization @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+
+  circuits Circuit[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([organizationId])
+  @@map("client")
+}
+
+// =============================================================================
+// Circuit Simulator Models
+// =============================================================================
+
+model Circuit {
+  id             String       @id @default(nanoid(11))
+  name           String
+  description    String?
+
+  clientId       String?
+  client         Client?      @relation(fields: [clientId], references: [id], onDelete: SetNull)
+
+  organizationId String
+  organization   Organization @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+
+  nodesJson       String @db.Text
+  linksJson       String @db.Text
+  statesJson      String @db.Text
+  sourceNodeId    String
+  neutralNodeId   String
+  receptorNodeIds String @db.Text
+
+  // Versioning
+  version         Int      @default(1)
+  fingerprint     String?  // Structural hash for matching similar plans
+  parentCircuitId String?  // Points to original version (v1)
+  parentCircuit   Circuit? @relation("CircuitVersions", fields: [parentCircuitId], references: [id], onDelete: SetNull)
+  childVersions   Circuit[] @relation("CircuitVersions")
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  simulations CircuitSimulation[]
+
+  @@index([clientId])
+  @@index([organizationId])
+  @@index([fingerprint])
+  @@index([parentCircuitId])
+  @@map("circuit")
+}
+
+model CircuitSimulation {
+  id        String  @id @default(nanoid(11))
+  circuitId String
+  circuit   Circuit @relation(fields: [circuitId], references: [id], onDelete: Cascade)
+
+  statesJson  String @db.Text // States at simulation time
+  resultsJson String @db.Text // Simulation results
+
+  createdAt DateTime @default(now())
+
+  @@index([circuitId])
+  @@map("circuit_simulation")
+}
