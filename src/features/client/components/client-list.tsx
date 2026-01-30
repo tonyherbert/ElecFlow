@@ -77,7 +77,7 @@ export function ClientList({ clients, orgSlug }: ClientListProps) {
         <h3 className="mt-6 text-xl font-semibold">Bienvenue sur ElecFlow</h3>
         <p className="mt-2 max-w-sm text-center text-muted-foreground">
           Créez votre premier client pour commencer à importer et simuler vos
-          schémas électriques Formelec.
+          schémas électriques.
         </p>
         <Link
           href={`/orgs/${orgSlug}/clients/new`}
@@ -120,7 +120,7 @@ export function ClientList({ clients, orgSlug }: ClientListProps) {
           <div className="flex-1">
             <p className="font-medium">Importer un schéma</p>
             <p className="mt-1 text-sm text-muted-foreground">
-              Glissez un PDF Formelec
+              Glissez un PDF
             </p>
           </div>
           <ArrowUpRight className="size-5 text-primary" />

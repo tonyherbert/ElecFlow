@@ -13,7 +13,7 @@ import { notFound } from "next/navigation";
 
 export const generateMetadata = combineWithParentMetadata({
   title: "Importer un schéma",
-  description: "Importer un schéma électrique au format Formelec",
+  description: "Importer un schéma électrique PDF",
 });
 
 export default async function ImportCircuitPage(
@@ -32,7 +32,7 @@ export default async function ImportCircuitPage(
       <LayoutHeader>
         <LayoutTitle>Importer un schéma</LayoutTitle>
         <LayoutDescription>
-          Importez un schéma électrique au format Formelec pour {client.name}.
+          Importez un schéma électrique PDF pour {client.name}.
         </LayoutDescription>
       </LayoutHeader>
       <LayoutContent>

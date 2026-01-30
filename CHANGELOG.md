@@ -1,5 +1,16 @@
 # Changelog
 
+## 2026-01-30
+
+FEATURE: New stunning landing page with animated electrical theme
+FEATURE: Animated circuit background with flowing electricity particles
+FEATURE: Interactive hero section with live circuit simulation preview
+FEATURE: Animated features section with import, analysis, and simulation demos
+FEATURE: How it works section with step-by-step animations
+FEATURE: ElecFlow-specific FAQ section
+FEATURE: Stats section with animated counters
+FEATURE: Final CTA section with glowing effects
+
 ## 2026-01-29
 
 FIX: Dashboard "Importer un schéma" button now redirects to circuits import page

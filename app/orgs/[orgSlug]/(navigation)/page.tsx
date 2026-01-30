@@ -205,7 +205,7 @@ export default async function DashboardPage() {
                       </div>
                       <p className="mt-3 text-sm font-medium">Aucun schéma</p>
                       <p className="mt-1 text-xs text-muted-foreground">
-                        Importez votre premier schéma Formelec
+                        Importez votre premier schéma
                       </p>
                     </div>
                   )}
@@ -215,7 +215,7 @@ export default async function DashboardPage() {
                 <div className="mt-4 rounded-xl border border-primary/20 bg-gradient-to-br from-primary/5 to-primary/10 p-5">
                   <h3 className="font-semibold">Astuce rapide</h3>
                   <p className="mt-2 text-sm text-muted-foreground">
-                    Importez vos schémas PDF Formelec pour analyser
+                    Importez vos schémas PDF pour analyser
                     automatiquement la structure des protections et simuler le
                     comportement du circuit.
                   </p>
@@ -326,7 +326,7 @@ function EmptyState({ orgSlug }: { orgSlug: string }) {
         <FeatureCard
           step={2}
           title="Importer un PDF"
-          description="Format Formelec automatiquement analysé"
+          description="Schéma automatiquement analysé"
         />
         <FeatureCard
           step={3}

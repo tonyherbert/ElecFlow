@@ -96,7 +96,7 @@ export function CircuitList({ circuits, orgSlug, clientId }: CircuitListProps) {
         </div>
         <h3 className="mt-5 text-lg font-semibold">Aucun schéma</h3>
         <p className="mt-2 max-w-xs text-center text-sm text-muted-foreground">
-          Importez votre premier schéma Formelec pour simuler la logique
+          Importez votre premier schéma pour simuler la logique
           électrique.
         </p>
         <Link
