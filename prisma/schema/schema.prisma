@@ -54,8 +54,8 @@ model Circuit {
   name           String
   description    String?
 
-  clientId       String
-  client         Client       @relation(fields: [clientId], references: [id], onDelete: Cascade)
+  clientId       String?
+  client         Client?      @relation(fields: [clientId], references: [id], onDelete: SetNull)
 
   organizationId String
   organization   Organization @relation(fields: [organizationId], references: [id], onDelete: Cascade)
@@ -67,6 +67,13 @@ model Circuit {
   neutralNodeId   String
   receptorNodeIds String @db.Text
 
+  // Versioning
+  version         Int      @default(1)
+  fingerprint     String?  // Structural hash for matching similar plans
+  parentCircuitId String?  // Points to original version (v1)
+  parentCircuit   Circuit? @relation("CircuitVersions", fields: [parentCircuitId], references: [id], onDelete: SetNull)
+  childVersions   Circuit[] @relation("CircuitVersions")
+
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
@@ -74,6 +81,8 @@ model Circuit {
 
   @@index([clientId])
   @@index([organizationId])
+  @@index([fingerprint])
+  @@index([parentCircuitId])
   @@map("circuit")
 }
 

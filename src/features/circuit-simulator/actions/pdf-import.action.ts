@@ -5,9 +5,16 @@ import { ActionError } from "@/lib/errors/action-error";
 import { prisma } from "@/lib/prisma";
 import { z } from "zod";
 
-import { extractTextFromPdf } from "../pdf-import/pdf-parser";
-import { parseFormelecText } from "../pdf-import/formelec-parser";
 import { buildCircuitFromParsed } from "../pdf-import/circuit-builder";
+import { parseFormelecText } from "../pdf-import/formelec-parser";
+import { extractTextFromPdf } from "../pdf-import/pdf-parser";
+import { computeCircuitFingerprint } from "../utils/fingerprint";
+
+import {
+  findCircuitsByFingerprint,
+  findCircuitsByFingerprintGlobal,
+  getNextVersionNumber,
+} from "./circuit.action";
 
 // =============================================================================
 // Parse PDF (Preview before import)
@@ -57,6 +64,12 @@ export const parsePdfAction = orgAction
     // Build circuit preview
     const buildResult = buildCircuitFromParsed(parsed);
 
+    // Compute fingerprint for version matching
+    const fingerprint =
+      parsed.components.length > 0
+        ? computeCircuitFingerprint(parsed.components)
+        : null;
+
     return {
       parsed,
       buildResult,
@@ -64,6 +77,41 @@ export const parsePdfAction = orgAction
         numPages: extractionResult.numPages,
         title: extractionResult.info.title,
       },
+      fingerprint,
+    };
+  });
+
+// =============================================================================
+// Check Existing Versions
+// =============================================================================
+
+const CheckVersionInputSchema = z.object({
+  /** Fingerprint from parsed PDF */
+  fingerprint: z.string().min(1),
+  /** Client ID to check within (optional for global import) */
+  clientId: z.string().optional(),
+});
+
+export const checkExistingVersionsAction = orgAction
+  .metadata({})
+  .inputSchema(CheckVersionInputSchema)
+  .action(async ({ parsedInput, ctx: { org } }) => {
+    const { fingerprint, clientId } = parsedInput;
+
+    // If no clientId, check across all circuits in the org
+    const matches = clientId
+      ? await findCircuitsByFingerprint(fingerprint, clientId, org.id)
+      : await findCircuitsByFingerprintGlobal(fingerprint, org.id);
+
+    return {
+      hasExistingVersions: matches.length > 0,
+      existingCircuits: matches.map((m) => ({
+        id: m.id,
+        name: m.name,
+        version: m.version,
+        createdAt: m.createdAt,
+        latestVersion: m.childVersions[0]?.version ?? m.version,
+      })),
     };
   });
 
@@ -76,17 +124,20 @@ const ImportPdfInputSchema = z.object({
   fileBase64: z.string().min(1),
   /** Original file name */
   fileName: z.string().min(1),
-  /** Client ID to associate the circuit with */
-  clientId: z.string().min(1),
+  /** Client ID to associate the circuit with (optional) */
+  clientId: z.string().optional(),
   /** Optional custom circuit name (overrides parsed name) */
   customName: z.string().optional(),
+  /** Optional parent circuit ID to create as new version */
+  createAsVersionOf: z.string().optional(),
 });
 
 export const importPdfAction = orgAction
   .metadata({})
   .inputSchema(ImportPdfInputSchema)
   .action(async ({ parsedInput, ctx: { org } }) => {
-    const { fileBase64, fileName, clientId, customName } = parsedInput;
+    const { fileBase64, fileName, clientId, customName, createAsVersionOf } =
+      parsedInput;
 
     // Validate file extension
     if (!fileName.toLowerCase().endsWith(".pdf")) {
@@ -133,12 +184,33 @@ export const importPdfAction = orgAction
 
     const circuitInput = buildResult.circuitInput;
 
+    // Compute fingerprint for version matching
+    const fingerprint = computeCircuitFingerprint(parsed.components);
+
+    // Determine version info
+    let version = 1;
+    let parentCircuitId: string | null = null;
+
+    if (createAsVersionOf) {
+      // Validate that the parent circuit exists and belongs to this org
+      const parentCircuit = await prisma.circuit.findUnique({
+        where: { id: createAsVersionOf, organizationId: org.id },
+        select: { id: true, parentCircuitId: true },
+      });
+
+      if (parentCircuit) {
+        // Use the original circuit as parent (not the one passed if it's already a child)
+        parentCircuitId = parentCircuit.parentCircuitId ?? parentCircuit.id;
+        version = await getNextVersionNumber(parentCircuitId, org.id);
+      }
+    }
+
     // Create circuit in database
     const circuit = await prisma.circuit.create({
       data: {
         name: customName ?? circuitInput.name,
         description: circuitInput.description,
-        clientId,
+        clientId: clientId ?? null,
         organizationId: org.id,
         nodesJson: JSON.stringify(circuitInput.nodes),
         linksJson: JSON.stringify(circuitInput.links),
@@ -146,12 +218,18 @@ export const importPdfAction = orgAction
         sourceNodeId: circuitInput.sourceNodeId,
         neutralNodeId: circuitInput.neutralNodeId,
         receptorNodeIds: JSON.stringify(circuitInput.receptorNodeIds),
+        // Versioning fields
+        version,
+        fingerprint,
+        parentCircuitId,
       },
     });
 
     return {
       circuitId: circuit.id,
       componentsCount: parsed.components.length,
+      version,
+      isNewVersion: parentCircuitId !== null,
       warnings: buildResult.errors, // Non-fatal errors become warnings
     };
   });

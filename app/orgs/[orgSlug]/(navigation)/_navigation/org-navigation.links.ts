@@ -9,6 +9,7 @@ import {
   User,
   User2,
   Users,
+  Zap,
 } from "lucide-react";
 
 const replaceSlug = (href: string, slug: string): string =>
@@ -50,6 +51,11 @@ export const ORGANIZATION_LINKS: NavigationGroup[] = [
         href: ORGANIZATION_PATH,
         Icon: Home,
         label: "Dashboard",
+      },
+      {
+        href: `${ORGANIZATION_PATH}/circuits`,
+        Icon: Zap,
+        label: "Schémas",
       },
       {
         href: `${ORGANIZATION_PATH}/clients`,
