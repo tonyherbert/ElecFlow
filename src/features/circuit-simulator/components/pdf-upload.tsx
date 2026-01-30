@@ -1,9 +1,7 @@
 "use client";
 
-import { Button } from "@/components/ui/button";
-import { Card, CardContent } from "@/components/ui/card";
 import { cn } from "@/lib/utils";
-import { FileUp, Loader2, X } from "lucide-react";
+import { FileText, Loader2, Upload, X } from "lucide-react";
 import { useCallback, useState } from "react";
 
 type PdfUploadProps = {
@@ -66,69 +64,79 @@ export function PdfUpload({
     setSelectedFile(null);
   }, []);
 
-  return (
-    <Card>
-      <CardContent className="pt-6">
-        {selectedFile ? (
-          <div className="flex items-center justify-between rounded-lg border border-dashed p-4">
-            <div className="flex items-center gap-3">
-              <FileUp className="h-8 w-8 text-muted-foreground" />
-              <div>
-                <p className="font-medium">{selectedFile.name}</p>
-                <p className="text-sm text-muted-foreground">
-                  {(selectedFile.size / 1024 / 1024).toFixed(2)} MB
-                </p>
-              </div>
-            </div>
-            <div className="flex items-center gap-2">
-              {isLoading && <Loader2 className="h-4 w-4 animate-spin" />}
-              {!isLoading && (
-                <Button
-                  variant="ghost"
-                  size="icon"
-                  onClick={clearFile}
-                  disabled={disabled}
-                >
-                  <X className="h-4 w-4" />
-                </Button>
-              )}
-            </div>
+  if (selectedFile) {
+    return (
+      <div className="flex items-center gap-4 rounded-xl border bg-card p-5">
+        <div className="flex size-12 items-center justify-center rounded-xl bg-primary/10">
+          <FileText className="size-6 text-primary" />
+        </div>
+        <div className="flex-1">
+          <p className="font-medium">{selectedFile.name}</p>
+          <p className="text-sm text-muted-foreground">
+            {(selectedFile.size / 1024 / 1024).toFixed(2)} MB
+          </p>
+        </div>
+        {isLoading ? (
+          <div className="flex items-center gap-2 text-sm text-muted-foreground">
+            <Loader2 className="size-4 animate-spin" />
+            Analyse en cours...
           </div>
         ) : (
-          <label
-            className={cn(
-              "flex cursor-pointer flex-col items-center justify-center gap-4 rounded-lg border-2 border-dashed p-8 transition-colors",
-              isDragging
-                ? "border-primary bg-primary/5"
-                : "border-muted-foreground/25 hover:border-primary/50",
-              disabled && "cursor-not-allowed opacity-50"
-            )}
-            onDragOver={handleDragOver}
-            onDragLeave={handleDragLeave}
-            onDrop={handleDrop}
+          <button
+            type="button"
+            onClick={clearFile}
+            disabled={disabled}
+            className="flex size-8 items-center justify-center rounded-lg text-muted-foreground transition-colors hover:bg-muted hover:text-foreground"
           >
-            <FileUp className="h-12 w-12 text-muted-foreground" />
-            <div className="text-center">
-              <p className="font-medium">
-                Glissez-déposez votre PDF ici
-              </p>
-              <p className="text-sm text-muted-foreground">
-                ou cliquez pour parcourir
-              </p>
-            </div>
-            <p className="text-xs text-muted-foreground">
-              Format Formelec uniquement - Maximum 10 MB
-            </p>
-            <input
-              type="file"
-              accept="application/pdf"
-              onChange={handleFileInput}
-              disabled={disabled || isLoading}
-              className="hidden"
-            />
-          </label>
+            <X className="size-4" />
+          </button>
         )}
-      </CardContent>
-    </Card>
+      </div>
+    );
+  }
+
+  return (
+    <label
+      className={cn(
+        "group relative flex cursor-pointer flex-col items-center justify-center gap-4 rounded-xl border-2 border-dashed bg-card px-6 py-16 transition-all",
+        isDragging
+          ? "border-primary bg-primary/5"
+          : "border-border/50 hover:border-primary/30 hover:bg-primary/[0.02]",
+        disabled && "cursor-not-allowed opacity-50"
+      )}
+      onDragOver={handleDragOver}
+      onDragLeave={handleDragLeave}
+      onDrop={handleDrop}
+    >
+      <div
+        className={cn(
+          "flex size-16 items-center justify-center rounded-2xl transition-all",
+          isDragging
+            ? "bg-primary/20 text-primary"
+            : "bg-primary/10 text-primary group-hover:bg-primary/15"
+        )}
+      >
+        <Upload className="size-8" />
+      </div>
+      <div className="text-center">
+        <p className="text-lg font-medium">
+          Glissez-déposez votre schéma ici
+        </p>
+        <p className="mt-1 text-sm text-muted-foreground">
+          ou cliquez pour parcourir vos fichiers
+        </p>
+      </div>
+      <div className="flex items-center gap-2 rounded-full bg-muted/50 px-4 py-2 text-xs text-muted-foreground">
+        <FileText className="size-3.5" />
+        Format PDF Formelec - Maximum 10 MB
+      </div>
+      <input
+        type="file"
+        accept="application/pdf"
+        onChange={handleFileInput}
+        disabled={disabled || isLoading}
+        className="hidden"
+      />
+    </label>
   );
 }

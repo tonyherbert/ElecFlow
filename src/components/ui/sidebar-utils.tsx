@@ -25,9 +25,31 @@ const findBestMatch = (pathname: string, hrefs: string[]): string | null => {
     (href) => pathname === href || pathname.startsWith(`${href}/`),
   );
   if (matches.length === 0) return null;
-  return matches.reduce((best, current) =>
+
+  // Get the longest match
+  const bestMatch = matches.reduce((best, current) =>
     current.length > best.length ? current : best,
   );
+
+  // If the best match is the org root (e.g., /orgs/slug) but the pathname
+  // goes deeper into a non-listed route (like /circuits), return null
+  // This prevents dashboard from being active on circuit detail pages
+  const pathSegments = pathname.split("/").filter(Boolean);
+  const matchSegments = bestMatch.split("/").filter(Boolean);
+
+  // If we matched only the base org path but there's a 3rd segment that doesn't
+  // correspond to any nav item, don't highlight anything
+  if (matchSegments.length === 2 && pathSegments.length > 2) {
+    const nextSegment = pathSegments[2];
+    const hasNavForSegment = hrefs.some((href) =>
+      href.includes(`/${nextSegment}`),
+    );
+    if (!hasNavForSegment) {
+      return null;
+    }
+  }
+
+  return bestMatch;
 };
 
 const SidebarMenuButtonLinkWithActive = ({
