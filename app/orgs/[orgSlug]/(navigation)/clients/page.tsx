@@ -11,6 +11,7 @@ import {
 } from "@/features/page/layout";
 import { combineWithParentMetadata } from "@/lib/metadata";
 import { getRequiredCurrentOrgCache } from "@/lib/react/cache";
+import { Plus } from "lucide-react";
 import Link from "next/link";
 
 export const generateMetadata = combineWithParentMetadata({
@@ -38,6 +39,7 @@ export default async function ClientsPage(
           href={`/orgs/${params.orgSlug}/clients/new`}
           className={buttonVariants()}
         >
+          <Plus className="mr-2 size-4" />
           Nouveau client
         </Link>
       </LayoutActions>
