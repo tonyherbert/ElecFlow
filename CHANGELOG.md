@@ -2,6 +2,7 @@
 
 ## 2026-01-31
 
+FIX: Breadcrumb shows translated labels and only links to valid pages
 REFACTOR: Clean up circuit-simulator feature - remove orphan file, rename components for clarity
 FIX: Circuit diagram now uses actual circuit topology instead of naming conventions
 FEATURE: Interactive circuit diagram visualization with React Flow
