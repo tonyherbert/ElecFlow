@@ -1,5 +1,6 @@
 "use client";
 
+import { Button } from "@/components/ui/button";
 import {
   Card,
   CardContent,
@@ -10,6 +11,8 @@ import {
 import { Form, useForm } from "@/features/form/tanstack-form";
 import { resolveActionResult } from "@/lib/actions/actions-utils";
 import { useMutation } from "@tanstack/react-query";
+import { ArrowLeft } from "lucide-react";
+import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 
@@ -75,8 +78,25 @@ export function ClientForm({
     },
   });
 
+  const backUrl = mode === "edit" && defaultValues?.id
+    ? `/orgs/${orgSlug}/clients/${defaultValues.id}`
+    : `/orgs/${orgSlug}/clients`;
+
   return (
     <Form form={form}>
+      {/* Sticky action bar */}
+      <div className="sticky top-0 z-10 -mx-4 mb-6 flex items-center justify-between border-b bg-background/95 px-4 py-3 backdrop-blur supports-[backdrop-filter]:bg-background/60">
+        <Button variant="ghost" size="sm" asChild>
+          <Link href={backUrl}>
+            <ArrowLeft className="mr-2 size-4" />
+            Retour
+          </Link>
+        </Button>
+        <form.SubmitButton size="sm">
+          {mode === "create" ? "Créer le client" : "Enregistrer"}
+        </form.SubmitButton>
+      </div>
+
       <div className="flex w-full flex-col gap-6">
         <Card>
           <CardHeader>
@@ -158,12 +178,6 @@ export function ClientForm({
               )}
             </form.AppField>
           </CardContent>
-        </Card>
-
-        <Card className="flex items-end p-6">
-          <form.SubmitButton className="w-fit">
-            {mode === "create" ? "Créer le client" : "Enregistrer"}
-          </form.SubmitButton>
         </Card>
       </div>
     </Form>
