@@ -17,6 +17,7 @@ import {
   ArrowRight,
   CheckCircle2,
   ChevronDown,
+  Download,
   List,
   Loader2,
   Network,
@@ -26,6 +27,7 @@ import {
   XCircle,
   Zap,
 } from "lucide-react";
+import { useParams } from "next/navigation";
 import { useCallback, useMemo, useState } from "react";
 import { Label as RechartsLabel, Pie, PieChart } from "recharts";
 import { toast } from "sonner";
@@ -52,6 +54,7 @@ const chartConfig = {
 type ViewMode = "list" | "diagram";
 
 export function SimulationPanel({ circuit }: SimulationPanelProps) {
+  const params = useParams<{ orgSlug: string }>();
   const [stateOverrides, setStateOverrides] = useState<Record<string, boolean>>(
     () => {
       const initial: Record<string, boolean> = {};
@@ -62,6 +65,7 @@ export function SimulationPanel({ circuit }: SimulationPanelProps) {
     }
   );
   const [isSimulating, setIsSimulating] = useState(false);
+  const [isExporting, setIsExporting] = useState(false);
   const [result, setResult] = useState<CircuitSimulationResult | null>(null);
   const [expandedReceptors, setExpandedReceptors] = useState<Set<string>>(
     new Set()
@@ -91,6 +95,60 @@ export function SimulationPanel({ circuit }: SimulationPanelProps) {
       );
     } finally {
       setIsSimulating(false);
+    }
+  };
+
+  const exportPdf = async () => {
+    if (!result) return;
+
+    setIsExporting(true);
+    try {
+      const response = await fetch(
+        `/api/orgs/${params.orgSlug}/circuits/${circuit.id}/export-pdf`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            simulationResult: {
+              circuitId: circuit.id,
+              circuitName: circuit.name,
+              timestamp: new Date().toISOString(),
+              states: circuit.states.map((state) => ({
+                id: state.id,
+                name: state.name,
+                isActive: stateOverrides[state.id],
+              })),
+              results: result.results,
+            },
+          }),
+        }
+      );
+
+      if (!response.ok) {
+        throw new Error("Échec de l'export PDF");
+      }
+
+      const blob = await response.blob();
+      const url = window.URL.createObjectURL(blob);
+      const link = document.createElement("a");
+      link.href = url;
+      link.download =
+        response.headers.get("Content-Disposition")?.match(/filename="(.+)"/)?.[1] ??
+        `rapport-${circuit.name}.pdf`;
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+      window.URL.revokeObjectURL(url);
+
+      toast.success("Rapport PDF téléchargé");
+    } catch (error) {
+      toast.error(
+        error instanceof Error ? error.message : "Échec de l'export PDF"
+      );
+    } finally {
+      setIsExporting(false);
     }
   };
 
@@ -176,6 +234,27 @@ export function SimulationPanel({ circuit }: SimulationPanelProps) {
               </>
             )}
           </Button>
+          {result && (
+            <Button
+              onClick={exportPdf}
+              disabled={isExporting}
+              variant="outline"
+              size="lg"
+              className="w-full sm:w-auto"
+            >
+              {isExporting ? (
+                <>
+                  <Loader2 className="mr-2 size-5 animate-spin" />
+                  Export en cours...
+                </>
+              ) : (
+                <>
+                  <Download className="mr-2 size-5" />
+                  Exporter PDF
+                </>
+              )}
+            </Button>
+          )}
         </div>
       </div>
 
