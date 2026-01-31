@@ -32,7 +32,7 @@ import type {
 import { ComponentValidationForm } from "./component-validation-form";
 import { PdfPreview } from "./pdf-preview";
 import { PdfUpload } from "./pdf-upload";
-import { VersionSelector } from "./version-selector";
+import { VersionSelector } from "./import-version-selector";
 
 type Client = {
   id: string;

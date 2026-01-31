@@ -6,7 +6,7 @@ import {
 } from "@/features/circuit-simulator/actions/circuit.action";
 import { ClientAssignment } from "@/features/circuit-simulator/components/client-assignment";
 import { SimulationPanel } from "@/features/circuit-simulator/components/simulation-panel";
-import { VersionSwitcher } from "@/features/circuit-simulator/components/version-switcher";
+import { VersionSwitcher } from "@/features/circuit-simulator/components/simulation-version-dropdown";
 import {
   Layout,
   LayoutContent,
