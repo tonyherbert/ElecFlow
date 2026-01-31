@@ -1,12 +1,12 @@
 # Circuit Simulator - Documentation Technique
 
-ElecFlow permet d'importer des schémas électriques au format Formelec (PDF) et de simuler le comportement logique des circuits pour vérifier l'alimentation des récepteurs.
+ElecFlow permet d'importer des schémas électriques (PDF) et de simuler le comportement logique des circuits pour vérifier l'alimentation des récepteurs.
 
 ## Vue d'ensemble
 
 ```
 ┌─────────────────────────────────────────────────────────┐
-│  1. Import PDF (format Formelec)                        │
+│  1. Import PDF                                          │
 │     └── Extraction texte avec pdf-parse                 │
 │                                                         │
 │  2. Parsing des composants                              │
@@ -56,7 +56,7 @@ NO: OUVERT (ne conduit pas)  NO: FERMÉ (conduit)
 NC: FERMÉ (conduit)          NC: OUVERT (ne conduit pas)
 ```
 
-**Important:** Dans un schéma Formelec typique, tous les dispositifs de protection (disjoncteurs, différentiels) sont des contacts NC. Ils conduisent au repos et s'ouvrent (coupent le circuit) quand ils déclenchent.
+**Important:** Dans un schéma électrique typique, tous les dispositifs de protection (disjoncteurs, différentiels) sont des contacts NC. Ils conduisent au repos et s'ouvrent (coupent le circuit) quand ils déclenchent.
 
 ## Structure des Fichiers
 
@@ -69,7 +69,7 @@ src/features/circuit-simulator/
 ├── pdf-import/
 │   ├── types.ts                # Types pour le parsing PDF
 │   ├── pdf-parser.ts           # Extraction texte du PDF
-│   ├── formelec-parser.ts      # Parsing format Formelec
+│   ├── schema-parser.ts        # Parsing du schéma
 │   └── circuit-builder.ts      # Construction du circuit
 ├── actions/
 │   ├── circuit.action.ts       # CRUD circuits
@@ -83,11 +83,11 @@ src/features/circuit-simulator/
     └── pdf-preview.tsx         # Prévisualisation import
 ```
 
-## Import PDF Formelec
+## Import PDF
 
 ### Format attendu
 
-Le PDF Formelec contient des tableaux avec les colonnes :
+Le PDF contient des tableaux avec les colonnes :
 
 | Repère | Désignation | Câble | Protection |
 |--------|-------------|-------|------------|

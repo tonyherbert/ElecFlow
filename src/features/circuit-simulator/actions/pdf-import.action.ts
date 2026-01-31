@@ -6,8 +6,8 @@ import { prisma } from "@/lib/prisma";
 import { z } from "zod";
 
 import { buildCircuitFromParsed } from "../pdf-import/circuit-builder";
-import { parseFormelecText } from "../pdf-import/formelec-parser";
 import { extractTextFromPdf } from "../pdf-import/pdf-parser";
+import { parseSchemaText } from "../pdf-import/schema-parser";
 import { computeCircuitFingerprint } from "../utils/fingerprint";
 
 import {
@@ -58,8 +58,8 @@ export const parsePdfAction = orgAction
       );
     }
 
-    // Parse Formelec format
-    const parsed = parseFormelecText(extractionResult.text, fileName);
+    // Parse schema format
+    const parsed = parseSchemaText(extractionResult.text, fileName);
 
     // Build circuit preview
     const buildResult = buildCircuitFromParsed(parsed);
@@ -164,12 +164,12 @@ export const importPdfAction = orgAction
       );
     }
 
-    // Parse Formelec format
-    const parsed = parseFormelecText(extractionResult.text, fileName);
+    // Parse schema format
+    const parsed = parseSchemaText(extractionResult.text, fileName);
 
     if (parsed.components.length === 0) {
       throw new ActionError(
-        "Aucun composant détecté dans le PDF. Vérifiez que le format est Formelec."
+        "Aucun composant détecté dans le PDF. Vérifiez le format du fichier."
       );
     }
 

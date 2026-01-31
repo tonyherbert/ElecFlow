@@ -128,7 +128,7 @@ export function PdfUpload({
       </div>
       <div className="flex items-center gap-2 rounded-full bg-muted/50 px-4 py-2 text-xs text-muted-foreground">
         <FileText className="size-3.5" />
-        Format PDF Formelec - Maximum 10 MB
+        Format PDF - Maximum 10 MB
       </div>
       <input
         type="file"

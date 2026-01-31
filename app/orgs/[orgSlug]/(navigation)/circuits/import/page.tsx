@@ -12,7 +12,7 @@ import { getRequiredCurrentOrgCache } from "@/lib/react/cache";
 
 export const generateMetadata = combineWithParentMetadata({
   title: "Importer un schéma",
-  description: "Importer un schéma électrique au format Formelec",
+  description: "Importer un schéma électrique",
 });
 
 export default async function ImportCircuitPage(
@@ -33,7 +33,7 @@ export default async function ImportCircuitPage(
       <LayoutHeader>
         <LayoutTitle>Importer un schéma</LayoutTitle>
         <LayoutDescription>
-          Importez un schéma électrique au format Formelec (PDF).
+          Importez un schéma électrique au format PDF.
         </LayoutDescription>
       </LayoutHeader>
       <LayoutContent>

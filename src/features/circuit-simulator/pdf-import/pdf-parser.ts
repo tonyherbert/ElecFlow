@@ -47,7 +47,6 @@ export async function extractTextFromPdf(
 /**
  * Extract text from specific pages of a PDF
  * Note: pdf-parse v1 extracts all text at once
- * For Formelec PDFs, useful content is typically on pages 3-6
  */
 export async function extractTextFromPdfPages(
   buffer: Buffer,
@@ -55,6 +54,6 @@ export async function extractTextFromPdfPages(
   _endPage?: number
 ): Promise<PdfExtractionResult> {
   // pdf-parse v1 doesn't support page-specific extraction
-  // For now, we extract all text and let the Formelec parser handle filtering
+  // For now, we extract all text and let the schema parser handle filtering
   return extractTextFromPdf(buffer);
 }

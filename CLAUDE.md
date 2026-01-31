@@ -4,18 +4,18 @@ This file provides guidance to AI Agents.
 
 ## About ElecFlow
 
-ElecFlow est un micro-SaaS destiné aux bureaux d'études en électricité. L'application permet d'importer des schémas électriques au format Formelec (PDF) et de simuler le comportement logique des circuits.
+ElecFlow est un micro-SaaS destiné aux bureaux d'études en électricité. L'application permet d'importer des schémas électriques (PDF) et de simuler le comportement logique des circuits.
 
 ### Objectif
 
 Vérifier automatiquement la logique des circuits électriques :
-- Import de PDF Formelec (format standard des logiciels de schémas électriques)
+- Import de PDF de schémas électriques
 - Parsing automatique des composants (disjoncteurs, différentiels, circuits finaux)
 - Simulation du flux de courant avec identification des points de coupure
 
 ### Fonctionnalités principales
 
-- **Import PDF** : Glisser-déposer un schéma Formelec pour extraire automatiquement les composants
+- **Import PDF** : Glisser-déposer un schéma pour extraire automatiquement les composants
 - **Simulation** : Vérifier si chaque récepteur est alimenté selon l'état des protections
 - **Identification des coupures** : Savoir quel organe bloque l'alimentation d'un circuit
 

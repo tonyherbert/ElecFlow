@@ -6,14 +6,14 @@ const CABLE_PATTERN = /(\d+G\d+(?:\.\d+)?)/;
 
 const CARTOUCHE_PATTERNS = [
   /^(Indice|Modification|Date|Dessinateur|Approbateur|Page\s*:)/i,
-  /^(Création de document|TD\s+\d+|SOTR.?BAT|Formelec)/i,
+  /^(Création de document|TD\s+\d+|SOTR.?BAT)/i,
   /^\d+\s*\/\s*\d+$/,
   /^\d{2}\/\d{2}\/\d{2,4}$/,
   /^[A-Z]\.[A-Z]$/,
   /^[A-C]$/,
 ];
 
-export function parseFormelecText(text: string, documentName: string): ParsedPdfResult {
+export function parseSchemaText(text: string, documentName: string): ParsedPdfResult {
   const components: ParsedComponent[] = [];
   const errors: string[] = [];
 
@@ -97,7 +97,7 @@ export function parseFormelecText(text: string, documentName: string): ParsedPdf
   uniqueComponents.sort(compareReperes);
 
   if (uniqueComponents.length === 0) {
-    errors.push("Aucun composant détecté. Vérifiez que le PDF est au format Formelec.");
+    errors.push("Aucun composant détecté. Vérifiez le format du PDF.");
   }
 
   return { documentName, components: uniqueComponents, errors, rawText: text };

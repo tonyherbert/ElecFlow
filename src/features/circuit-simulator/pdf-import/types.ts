@@ -1,9 +1,9 @@
 /**
- * Types for PDF import and Formelec parsing
+ * Types for PDF import and schema parsing
  */
 
 /**
- * A component parsed from the Formelec PDF
+ * A component parsed from an electrical schema PDF
  * Represents a circuit breaker, differential, or other protective device
  */
 export type ParsedComponent = {
@@ -26,7 +26,7 @@ export type ParsedComponent = {
 };
 
 /**
- * Result of parsing a Formelec PDF
+ * Result of parsing an electrical schema PDF
  */
 export type ParsedPdfResult = {
   /** Name extracted from PDF (document title) */
