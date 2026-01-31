@@ -2,6 +2,7 @@
 
 ## 2026-01-31
 
+REFACTOR: Redesign clients page - remove unnecessary stats, add search functionality
 FIX: Breadcrumb shows translated labels and only links to valid pages
 REFACTOR: Clean up circuit-simulator feature - remove orphan file, rename components for clarity
 FIX: Circuit diagram now uses actual circuit topology instead of naming conventions
