@@ -1,5 +1,14 @@
 # Changelog
 
+## 2026-01-31
+
+FIX: Circuit diagram now uses actual circuit topology instead of naming conventions
+FEATURE: Interactive circuit diagram visualization with React Flow
+FEATURE: Toggle between list view and graphical schematic view in simulation
+FEATURE: Clickable breakers/differentials on diagram to toggle states
+FEATURE: Animated power flow visualization with color-coded paths
+FEATURE: MiniMap navigation and zoom controls for large circuits
+
 ## 2026-01-30
 
 FEATURE: AI-powered PDF parsing with Claude Haiku - universal format support (disabled by default)

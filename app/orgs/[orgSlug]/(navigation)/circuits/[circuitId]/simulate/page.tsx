@@ -41,7 +41,7 @@ export default async function SimulateCircuitPage(
   }
 
   return (
-    <Layout>
+    <Layout size="lg">
       <LayoutHeader>
         <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
           <LayoutTitle>{circuit.name}</LayoutTitle>
