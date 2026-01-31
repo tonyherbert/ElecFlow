@@ -2,6 +2,9 @@
 
 ## 2026-01-31
 
+FEATURE: Export PDF report - download professional simulation reports with stats and details
+REFACTOR: Remove all Formelec references - rename to generic schema parser
+REFACTOR: Client form - move save button from card to sticky header with back navigation
 REFACTOR: Redesign clients page - remove unnecessary stats, add search functionality
 FIX: Breadcrumb shows translated labels and only links to valid pages
 REFACTOR: Clean up circuit-simulator feature - remove orphan file, rename components for clarity
